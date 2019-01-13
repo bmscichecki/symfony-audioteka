@@ -20,7 +20,7 @@
                             <li><a>Album</a></li>
                         </ul>
                     </li>
-                    <li><a>Wyloguj się</a></li>
+                    <li><a href="logout">Wyloguj się</a></li>
                 </ul>
             </div>
             {% elseif is_granted('ROLE_USER') %}
@@ -34,13 +34,13 @@
                             <li><a>Zmień hasło</a></li>
                         </ul>
                     </li>
-                    <li><a>Wyloguj się</a></li>
+                    <li><a href="logout">Wyloguj się</a></li>
                 </ul>
             </div>
             {% else %}
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav pull-right">
-                    <li><a class="btn" href="signin.html">Zaloguj się</a></li>
+                    <li><a class="btn" href="login">Zaloguj się</a></li>
                 </ul>
             </div>
             {% endif %}
