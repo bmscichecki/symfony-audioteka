@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Audioteka {% endblock %}
+
+{% block body %}
+
+    <header id="head" class="secondary"></header>
+
+    <div class="container">
+
+        <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li class="active">Autorzy</li>
+        </ol>
+
+        <div class="row">
+
+            <!-- Article main content -->
+            <article class="col-xs-12 maincontent">
+                <header class="page-header">
+                    <h1 class="page-title">Autorzy</h1>
+                </header>
+
+                <table id = "tableList" class="table table-striped" >
+                    <thead>
+                    <tr>
+                        <th>Nazwa Autora</th>
+                        <th>Opcje</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for author in authors %}
+                        <tr>
+                            <td>{{ author.authorName }}</td>
+                            <div class="text-right">
+                                <td>
+                                    <a href="#"
+                                       class="btn btn-danger btn-xs delete"
+                                       data-type="author"
+                                       data-id="{{ author.id }}">Usuń</a>
+                                </td>
+                            </div>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </article>
+
+        </div>
+    </div>
+    <div class="top-space"></div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/delete.js"></script>
+{% endblock %}

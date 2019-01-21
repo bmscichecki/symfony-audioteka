@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Audioteka {% endblock %}
+
+{% block body %}
+
+    <header id="head" class="secondary"></header>
+
+    <div class="container">
+
+        <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li class="active">Gatunki</li>
+        </ol>
+
+        <div class="row">
+
+            <!-- Article main content -->
+            <article class="col-xs-12 maincontent">
+                <header class="page-header">
+                    <h1 class="page-title">Gatunki</h1>
+                </header>
+
+                <table id = "tableList" class="table table-striped" >
+                    <thead>
+                    <tr>
+                        <th>Nazwa Gatunku</th>
+                        <th>Opcje</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for genre in genre %}
+                        <tr>
+                            <td>{{ genre.genreName }}</td>
+                            <div class="text-right">
+                                <td>
+                                    <a href="#"
+                                       class="btn btn-danger btn-xs delete"
+                                       data-type="genre"
+                                       data-id="{{ genre.id }}">Usuń</a>
+                                </td>
+                            </div>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </article>
+
+        </div>
+    </div>
+    <div class="top-space"></div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/delete.js"></script>
+{% endblock %}

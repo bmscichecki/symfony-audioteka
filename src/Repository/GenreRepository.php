@@ -47,4 +47,11 @@ class GenreRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getAll(): array {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT genres FROM App\Entity\Genre genres'
+        );
+        return $query->execute();
+    }
 }
