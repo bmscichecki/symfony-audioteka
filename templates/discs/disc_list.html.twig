@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Audioteka {% endblock %}
+
+{% block body %}
+
+    <header id="head" class="secondary"></header>
+
+    <div class="container">
+
+        <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li class="active">Albumy</li>
+        </ol>
+
+        <div class="row">
+
+            <!-- Article main content -->
+            <article class="col-xs-12 maincontent">
+                <header class="page-header">
+                    <h1 class="page-title">Albumy</h1>
+                </header>
+
+                <table id = "tableList" class="table table-striped" >
+                    <thead>
+                    <tr>
+                        <th>Tytuł</th>
+                        <th>Autor</th>
+                        <th>Gatunek</th>
+                        <th>Opcje</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for disc in discs %}
+                        <tr>
+                            <td>{{ disc.title }}</td>
+                            <td>{{ disc.authorId }}</td>
+                            <td>{{ disc.genreId }}</td>
+                            <div class="text-right">
+                                <td>
+                                     {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="/disc/edit/{disc.id}"
+                                       class="btn btn-default btn-xs"
+                                       role="button">Edytuj</a>&nbsp&nbsp
+                                    <a href="#"
+                                       class="btn btn-danger btn-xs delete"
+                                       data-type="disc"
+                                       data-id="{{ disc.id }}">Usuń</a>
+                                    {% endif %}
+
+                                </td>
+                            </div>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </article>
+
+        </div>
+    </div>
+    <div class="top-space"></div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/delete.js"></script>
+{% endblock %}

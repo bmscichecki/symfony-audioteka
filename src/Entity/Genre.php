@@ -80,4 +80,9 @@ class Genre
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return (string) $this->genre_name;
+    }
 }
