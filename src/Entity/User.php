@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -34,6 +36,17 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserCatalog", mappedBy="user_id", orphanRemoval=true)
+     */
+    private $userCatalogs;
+
+    public function __construct()
+    {
+        $this->userCatalogs = new ArrayCollection();
+    }
+
 
 
     public function getId(): ?int
@@ -113,4 +126,36 @@ class User implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    /**
+     * @return Collection|UserCatalog[]
+     */
+    public function getUserCatalogs(): Collection
+    {
+        return $this->userCatalogs;
+    }
+
+    public function addUserCatalog(UserCatalog $userCatalog): self
+    {
+        if (!$this->userCatalogs->contains($userCatalog)) {
+            $this->userCatalogs[] = $userCatalog;
+            $userCatalog->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserCatalog(UserCatalog $userCatalog): self
+    {
+        if ($this->userCatalogs->contains($userCatalog)) {
+            $this->userCatalogs->removeElement($userCatalog);
+            // set the owning side to null (unless already changed)
+            if ($userCatalog->getUserId() === $this) {
+                $userCatalog->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

@@ -35,6 +35,18 @@ class Disc
      */
     private $author_id;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserCatalog", mappedBy="disc_id", orphanRemoval=true)
+     */
+    private $userCatalogs;
+
+    public function __construct()
+    {
+        $this->userCatalogs = new ArrayCollection();
+    }
+
+
+
 
     public function getId(): ?int
     {
@@ -76,5 +88,37 @@ class Disc
 
         return $this;
     }
+
+    /**
+     * @return Collection|UserCatalog[]
+     */
+    public function getUserCatalogs(): Collection
+    {
+        return $this->userCatalogs;
+    }
+
+    public function addUserCatalog(UserCatalog $userCatalog): self
+    {
+        if (!$this->userCatalogs->contains($userCatalog)) {
+            $this->userCatalogs[] = $userCatalog;
+            $userCatalog->setDiscId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserCatalog(UserCatalog $userCatalog): self
+    {
+        if ($this->userCatalogs->contains($userCatalog)) {
+            $this->userCatalogs->removeElement($userCatalog);
+            // set the owning side to null (unless already changed)
+            if ($userCatalog->getDiscId() === $this) {
+                $userCatalog->setDiscId(null);
+            }
+        }
+
+        return $this;
+    }
+
 
 }
