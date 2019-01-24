@@ -10,7 +10,7 @@
 
         <ol class="breadcrumb">
             <li><a href="/">Home</a></li>
-            <li class="active">Albumy</li>
+            <li class="active">Moja Lista</li>
         </ol>
 
         <div class="row">
@@ -31,26 +31,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for disc in discs %}
+                    {% for userCatalog in userCatalogs %}
                         <tr>
-                            <td>{{ disc.title }}</td>
-                            <td>{{ disc.authorId }}</td>
-                            <td>{{ disc.genreId }}</td>
+                            <td>{{ userCatalog.discId.title}}</td>
+                            <td>{{ userCatalog.discId.authorId}}</td>
+                            <td>{{ userCatalog.discId.genreId}}</td>
                             <div class="text-right">
                                 <td>
-                                     {% if is_granted('ROLE_ADMIN') %}
-                                         <a href = "/disc/edit/{{ disc.id }}"
-                                            class="btn btn-default btn-xs"
-                                            role="button">Edytuj</a>&nbsp&nbsp
-                                    <a href="#"
-                                       class="btn btn-danger btn-xs delete"
-                                       data-type="disc"
-                                       data-id="{{ disc.id }}">Usuń</a>
-                                    {% elseif is_granted('ROLE_USER') %}
-                                        <a href = "/disc/addToList/{{ disc.id }}"
-                                           class="btn btn-default btn-xs"
-                                           role="button">Dodaj do mojej listy</a>&nbsp&nbsp
-                                    {% endif %}
+                                        <a href="#"
+                                           class="btn btn-danger btn-xs delete"
+                                           data-type="userCatalog"
+                                           data-id="{{ userCatalog.id }}">Usuń</a>
                                 </td>
                             </div>
                         </tr>

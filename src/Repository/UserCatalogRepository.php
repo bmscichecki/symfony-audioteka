@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
+use App\Entity\Disc;
 use App\Entity\UserCatalog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @method UserCatalog|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,6 +17,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class UserCatalogRepository extends ServiceEntityRepository
 {
+    protected $container;
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, UserCatalog::class);
@@ -47,4 +51,22 @@ class UserCatalogRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findAllByID($request,  $userId){
+        $entityManager = $this->getEntityManager();
+
+        $catalog = $entityManager->createQueryBuilder()
+            ->select('c')
+            ->from(UserCatalog::class, 'c')
+            ->where('c.user_id = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
+
+        return $catalog;
+
+
+
+    }
+
 }

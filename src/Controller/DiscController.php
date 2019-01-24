@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class DiscController extends AbstractController
 {
@@ -19,7 +18,7 @@ class DiscController extends AbstractController
      */
     public function discList()
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
 
         $discs = $this->getDoctrine()->getRepository(Disc::class)->findAll();
 
@@ -31,7 +30,7 @@ class DiscController extends AbstractController
     /**
      * @Route("/disc/new", methods={"GET", "POST"}, name="new_disc")
      */
-    public function newDisc(Request $request, ValidatorInterface $validator)
+    public function newDisc(Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $disc=new Disc();
@@ -68,11 +67,10 @@ class DiscController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
-
             return $this->redirectToRoute('disc_list');
         }
         return $this->render('discs/new_disc.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ));
     }
 
@@ -87,6 +85,69 @@ class DiscController extends AbstractController
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($disc);
+        $entityManager->flush();
+
+        $response = new Response();
+        $response->send();
+    }
+
+    /**
+     * @Route("/disc/addToList/{id}", name = "addToUser")
+     * Method({"GET"})
+     */
+
+    public function addToList(Request $request, $id)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $list = new UserCatalog();
+        $disc = $this->getDoctrine()->getRepository(Disc::class)->find($id);
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+            $entityManager = $this->getDoctrine()->getManager();
+            $list->setUserId($user);
+            $list->setDiscId($disc);
+            $entityManager->persist($list);
+            $entityManager->flush();
+
+
+
+        /*$user = $this->container->get('security.token_storage')->getToken()->getUser();
+            $entityManager = $this->getDoctrine()->getManager();
+            $list->setUserId($user);
+            $list->setDiscId($disc);
+            //dump($disc);
+            $entityManager->persist($list);
+            $entityManager->flush();*/
+        //dump($disc);
+
+        return $this->redirectToRoute('user_list');
+
+    }
+
+    /**
+     * @Route("/disc/userList", methods = {"GET"}, name = "user_list")
+     */
+    public function userList(Request $request)
+    {
+        //$userId = $this->getUser()->getId();
+        $userId = $this->container->get('security.token_storage')->getToken()->getUser();
+        //$discId = $request->query->get('discId');
+        $userCatalogs = $this->getDoctrine()->getRepository(UserCatalog::class)->findAllByID($request, $userId);
+
+        return $this->render('lists/user_list.html.twig', array(
+            'userCatalogs' => $userCatalogs
+        ));
+    }
+
+    /**
+     * @Route("userCatalog/delete/{id}", methods={"DELETE"})
+     */
+    public function deleteUserDisc($id)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $userCatalog = $this->getDoctrine()->getRepository(UserCatalog::class)->find($id);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($userCatalog);
         $entityManager->flush();
 
         $response = new Response();
