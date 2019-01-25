@@ -15,11 +15,11 @@ class AuthorController extends AbstractController
     /**
      * @Route("/author", methods={"GET"}, name = "author_list")
      */
-    public function authorList()
+    public function authorList(Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
-        $authors = $this->getDoctrine()->getRepository(Author::class)->findAll();
+        $search_author = $request->query->get('search_author');
+        $authors = $this->getDoctrine()->getRepository(Author::class)->findAllByAuthorName($request, $search_author);
 
         return $this->render('authors/author_list.html.twig', array(
             'authors' => $authors

@@ -18,9 +18,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class UserCatalogRepository extends ServiceEntityRepository
 {
     protected $container;
-    public function __construct(RegistryInterface $registry)
+    public function __construct(RegistryInterface $registry, ContainerInterface $container)
     {
         parent::__construct($registry, UserCatalog::class);
+        $this->container = $container;
     }
 
     // /**
@@ -54,6 +55,7 @@ class UserCatalogRepository extends ServiceEntityRepository
 
     public function findAllByID($request,  $userId){
         $entityManager = $this->getEntityManager();
+        $container = $this->container;
 
         $catalog = $entityManager->createQueryBuilder()
             ->select('c')
@@ -63,7 +65,14 @@ class UserCatalogRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        return $catalog;
+        $pagenator = $container->get('knp_paginator');
+        $result = $pagenator->paginate(
+            $catalog,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 5)
+        );
+
+        return $result;
 
 
 

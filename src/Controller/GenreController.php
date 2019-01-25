@@ -15,11 +15,12 @@ class GenreController extends AbstractController
     /**
      * @Route("/genre", methods={"GET"}, name="genre_list")
      */
-    public function genreList()
+    public function genreList(Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        $genres=$this->getDoctrine()->getRepository(Genre::class)->getAll();
+        $search_genre = $request->query->get('search_genre');
+        $genres=$this->getDoctrine()->getRepository(Genre::class)->findAllByGenreName($request, $search_genre);
 
         return $this->render('genres/genre_list.html.twig', array(
             'genre' => $genres

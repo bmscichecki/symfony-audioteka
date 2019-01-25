@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Disc;
 use App\Entity\Genre;
 use App\Entity\Author;
+use App\Entity\UserCatalog;
 use App\Form\DiscForm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,11 +17,11 @@ class DiscController extends AbstractController
     /**
      * @Route("/disc", methods={"GET"}, name = "disc_list")
      */
-    public function discList()
+    public function discList(Request $request)
     {
 
-
-        $discs = $this->getDoctrine()->getRepository(Disc::class)->findAll();
+        $search_title = $request->query->get('search_title');
+        $discs = $this->getDoctrine()->getRepository(Disc::class)->findAllByDiscTitle($request, $search_title);
 
         return $this->render('discs/disc_list.html.twig', array(
             'discs' => $discs

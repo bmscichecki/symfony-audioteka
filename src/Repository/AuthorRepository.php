@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Author;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @method Author|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,12 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class AuthorRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    protected $container;
+    public function __construct(RegistryInterface $registry, ContainerInterface $container)
     {
         parent::__construct($registry, Author::class);
+        $this->container = $container;
+
     }
 
     // /**
@@ -47,4 +51,28 @@ class AuthorRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findAllByAuthorName($request, $search_author)
+    {
+        $entityManager = $this->getEntityManager();
+        $container = $this->container;
+
+        $author = $entityManager->createQueryBuilder()
+            ->select('a')
+            ->from(Author::class, 'a')
+            ->where("a.author_name LIKE :authorName")
+            ->setParameter('authorName', $search_author.'%')
+            ->orderBy('a.author_name', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        $pagenator = $container->get('knp_paginator');
+        $result = $pagenator->paginate(
+            $author,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 5)
+        );
+
+        return $result;
+    }
 }

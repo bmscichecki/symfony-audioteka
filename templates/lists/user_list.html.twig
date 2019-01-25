@@ -18,15 +18,15 @@
             <!-- Article main content -->
             <article class="col-xs-12 maincontent">
                 <header class="page-header">
-                    <h1 class="page-title">Albumy</h1>
+                    <h1 class="page-title">Moja Lista</h1>
                 </header>
 
                 <table id = "tableList" class="table table-striped" >
                     <thead>
                     <tr>
-                        <th>Tytuł</th>
-                        <th>Autor</th>
-                        <th>Gatunek</th>
+                        <th>{{ knp_pagination_sortable(userCatalogs, 'Tytuł', 'discId.title') }}</th>
+                        <th>{{ knp_pagination_sortable(userCatalogs, 'Autor', 'discId.authorId') }}</th>
+                        <th>{{ knp_pagination_sortable(userCatalogs, 'Gatunek', 'discId.genreId') }}</th>
                         <th>Opcje</th>
                     </tr>
                     </thead>
@@ -48,6 +48,9 @@
                     {% endfor %}
                     </tbody>
                 </table>
+                <div id = "centerSide">
+                    {{ knp_pagination_render(userCatalogs) }}
+                </div>
 
             </article>
 

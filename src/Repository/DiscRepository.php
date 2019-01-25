@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Disc;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @method Disc|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,12 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class DiscRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    protected $container;
+    public function __construct(RegistryInterface $registry, ContainerInterface $container)
     {
         parent::__construct($registry, Disc::class);
+        $this->container = $container;
+
     }
 
     // /**
@@ -47,4 +51,27 @@ class DiscRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findAllByDiscTitle($request, $search_title)
+    {
+        $entityManager = $this->getEntityManager();
+        $container = $this->container;
+
+        $disc = $entityManager->createQueryBuilder()
+            ->select('d')
+            ->from(Disc::class, 'd')
+            ->where("d.title LIKE :discName")
+            ->setParameter('discName', $search_title.'%')
+            ->getQuery()
+            ->getResult();
+
+        $pagenator = $container->get('knp_paginator');
+        $result = $pagenator->paginate(
+            $disc,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 5)
+        );
+
+        return $result;
+    }
 }
