@@ -48,6 +48,11 @@ class DiscController extends AbstractController
             $entityManager->persist($disc);
             $entityManager->flush();
 
+            $this->addFlash(
+                'info',
+                'Album pomyślnie dodany'
+            );
+
             return $this->redirectToRoute('disc_list');
         }
 
@@ -68,6 +73,12 @@ class DiscController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
+
+            $this->addFlash(
+                'update',
+                'Edytowano pomyślnie'
+            );
+
             return $this->redirectToRoute('disc_list');
         }
         return $this->render('discs/new_disc.html.twig', array(
@@ -87,6 +98,11 @@ class DiscController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($disc);
         $entityManager->flush();
+
+        $this->addFlash(
+            'info',
+            'Album usunięty pomyślnie'
+        );
 
         $response = new Response();
         $response->send();
@@ -108,6 +124,11 @@ class DiscController extends AbstractController
             $list->setDiscId($disc);
             $entityManager->persist($list);
             $entityManager->flush();
+
+        $this->addFlash(
+            'info',
+            'Dodano do listy'
+        );
 
 
 
@@ -150,6 +171,11 @@ class DiscController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($userCatalog);
         $entityManager->flush();
+
+        $this->addFlash(
+            'update',
+            'Usunięto z listy'
+        );
 
         $response = new Response();
         $response->send();

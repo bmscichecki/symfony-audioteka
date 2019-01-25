@@ -4,6 +4,9 @@
 
 {% block body %}
 
+
+
+
     <header id="head" class="secondary"></header>
 
     <div class="container">
@@ -14,6 +17,14 @@
         </ol>
 
         <div class="row">
+            {% for message in app.flashes('info') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
 
             <!-- Article main content -->
             <article class="col-xs-12 maincontent">

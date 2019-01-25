@@ -42,6 +42,11 @@ class AuthorController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($author);
             $entityManager->flush();
+
+            $this->addFlash(
+                'info',
+                'Pomyślnie dodano autora'
+            );
             return $this->redirectToRoute('author_list');
         }
         return $this->render('authors/new_author.html.twig', array(
@@ -58,6 +63,12 @@ class AuthorController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($author);
         $entityManager->flush();
+
+        $this->addFlash(
+            'info',
+            'Autor został usunięty'
+        );
+
         $response = new Response();
         $response->send();
     }

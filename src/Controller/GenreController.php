@@ -41,6 +41,12 @@ class GenreController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($genre);
             $entityManager->flush();
+
+            $this->addFlash(
+                'info',
+                'Gatunek dodany pomyślnie'
+            );
+
             return $this->redirectToRoute('genre_list');
         }
         return $this->render('genres/new_genre.html.twig', array(
@@ -59,6 +65,11 @@ class GenreController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($genre);
         $entityManager->flush();
+
+        $this->addFlash(
+            'info',
+            'Gatunek pomyślnie usunięty'
+        );
 
         $response = new Response();
         $response->send();

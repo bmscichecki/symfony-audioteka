@@ -51,7 +51,13 @@ class SecurityController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-            return $this->redirectToRoute('home');
+
+            $this->addFlash(
+                'info',
+                'Pomyślnie zmieniono hasło'
+            );
+
+            return $this->redirectToRoute('changePassword"');
         }
         return $this->render('security/change_pass.html.twig', array(
             'form' => $form->createView()
