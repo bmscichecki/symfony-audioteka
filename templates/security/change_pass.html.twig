@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Audioteka{% endblock %}
+
+{% block body %}
+
+    <header id="head" class="secondary"></header>
+
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li class="active">Zmień hasło</li>
+        </ol>
+        <div class="row">
+            <article class="col-xs-12 maincontent">
+                <header class="page-header">
+                </header>
+
+                <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h3 class="thin text-center">Zmiana hasła</h3>
+                            <br>
+                            <hr>
+                            {{ form_start(form) }}
+                            <div class="top-margin">
+                                {{ form_label(form.oldPassword) }}
+                                {{ form_widget(form.oldPassword) }}
+                            </div>
+                            <div class="top-margin">
+                                {{ form_label(form.newPassword.first) }}
+                                {{ form_widget(form.newPassword.first) }}
+                            </div>
+                            <div class="top-margin">
+                                {{ form_label(form.newPassword.second) }}
+                                {{ form_widget(form.newPassword.second) }}
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    {{  form_label(form.save) }}
+                                    {{ form_widget(form.save) }}
+                                </div>
+                            </div>
+                            {{ form_end(form) }}
+
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+{% endblock %}
