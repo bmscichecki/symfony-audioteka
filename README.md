@@ -49,3 +49,55 @@ password: admin
 ```
 # Zewnętrzne biblioteki
 * [KnpPaginatorBundle](https://github.com/KnpLabs/KnpPaginatorBundle)
+
+# Jak używać?
+
+## Rejestracja
+Użytkownik aby dołączyć do audioteki powinien posiadać konto. Podaje on swój e-mail oraz hasło 
+![alt text](https://github.com/Metrowy/symfony-audioteka/blob/master/images/rejestracja.PNG)
+
+## Logowanie
+Użytkownik loguje się za pomocą adresu e-mail oraz hasła podanego w rejestracji 
+![alt text](https://github.com/Metrowy/symfony-audioteka/blob/master/images/logowanie.PNG)
+
+## Dodanie gatunku 
+Administrator ma możliwość dodania gatunku podając jego nazwę
+![alt text](https://github.com/Metrowy/symfony-audioteka/blob/master/images/gatunek.PNG)
+
+Następnie zostanie on przekierowany do listy ze wszystkimi dodanymi gatunkami
+![alt text](https://github.com/Metrowy/symfony-audioteka/blob/master/images/listaGatunki.PNG)
+
+## Dodanie autora
+Administrator mamożliwość dodania autora podając jego nazwę
+![alt text](https://github.com/Metrowy/symfony-audioteka/blob/master/images/autor.PNG)
+
+Następnie zostanie on przekierowany do listy ze wszystkimi dodanymi autorami 
+![alt text](https://github.com/Metrowy/symfony-audioteka/blob/master/images/listaAutorzy.PNG)
+
+## Dodanie albumu
+Administrator ma możliwość dodania nowego albumu podając jego tytuł, a następnie wybiera on autora oraz gatunek
+![alt text](https://github.com/Metrowy/symfony-audioteka/blob/master/images/album.PNG)
+
+Następnie zostaje on przekierowany do listy wszystkich albumów
+![alt text](https://github.com/Metrowy/symfony-audioteka/blob/master/images/listaAlbumyAdmin.PNG)
+
+Z poziomu listy albumów może on edytować dostępne albumy oraz je usuwać 
+
+## Baza albumów 
+Użytkownik ma możliwość przeglądania dostępnych albumów oraz dodania ich do swojej listy
+![alt text](https://github.com/Metrowy/symfony-audioteka/blob/master/images/listaAlbumyU%C5%BCytkownik.PNG)
+
+Po kliknięciu w przycisk "Dodaj do mojej listy" album zostanie dodany do tabeli użytkownika, a sam użytkownik zostanie przeniesiony do listy albumów które posiada
+![alt text](https://github.com/Metrowy/symfony-audioteka/blob/master/images/listaU%C5%BCytkownika.PNG)
+
+Z poziomu swojej listy może ją dowolnie edytować czyli usuwać posiadane albumy i dodawać nowe
+
+## Zmiana hasła
+Użytkownik ma możliwość zmiany hasła, które podał podczas zakładania konta 
+![alt text](https://github.com/Metrowy/symfony-audioteka/blob/master/images/zmianaHasla.PNG)
+
+
+
+
+
+
